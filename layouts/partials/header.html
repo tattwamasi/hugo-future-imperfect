@@ -53,12 +53,12 @@
         <!-- If the value "default" is passed into the param then we will first
              load the standard css files associated with the theme -->
         {{ if or (in ($.Scratch.Get "cssFiles") "default") (eq ($.Scratch.Get "cssFiles") false) }}
-            <link rel="stylesheet" href="/css/google-font.css" />
-            <link rel="stylesheet" href="/css/font-awesome.min.css" />
-            <link rel="stylesheet" href="/css/main.css" />
-            <link rel="stylesheet" href="/css/add-on.css" />
-            <link rel="stylesheet" href="/css/monokai-sublime.css">
-            <link rel="stylesheet" href="/css/ref-popover.css">
+        <link rel="stylesheet" href={{ "/css/google-font.css" | relURL }} />
+        <link rel="stylesheet" href={{ "/css/font-awesome.min.css" | relURL }} />
+        <link rel="stylesheet" href={{ "/css/main.css" | relURL }} />
+        <link rel="stylesheet" href={{ "/css/add-on.css" | relURL }} />
+        <link rel="stylesheet" href={{ "/css/monokai-sublime.css" | relURL }} />
+        <link rel="stylesheet" href={{ "/css/ref-popover.css" | relURL }} />
         {{ end }}
 
         {{ if ne ($.Scratch.Get "cssFiles") false }}
@@ -69,8 +69,8 @@
             {{ end }}
         {{ end }}
 
-        <!--[if lte IE 9]><link rel="stylesheet" href="/css/ie9.css" /><![endif]-->
-        <!--[if lte IE 8]><link rel="stylesheet" href="/css/ie8.css" /><![endif]-->
+        <!--[if lte IE 9]><link rel="stylesheet" href={{ "/css/ie9.css" | relURL }} /><![endif]-->
+        <!--[if lte IE 8]><link rel="stylesheet" href={{ "/css/ie8.css" | relURL }} /><![endif]-->
         {{ if not (in (printf "%#v" .Site.BaseURL) "localhost") }}
             {{ template "_internal/google_analytics.html" . }}
         {{ end }}
