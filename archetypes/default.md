@@ -2,8 +2,11 @@
 author = ""
 categories = []
 description = ""
-linktitle = ""
+draft=true
 featured = ""
-featuredpath = ""
 featuredalt = ""
+featuredpath = ""
+linktitle = ""
+tags = []
+
 +++
