@@ -1,44 +1,94 @@
+<!--
+  The surrounding unordered list is to group all taxonomy lists into one element
+  so that they'll wrap properly in the flex box of the footer
+-->
 <ul class="stats">
-    {{ if isset .Params "categories" }}
-        {{ $categoryCount := (len .Params.categories) }}
+
+<ul class="stats">
+  {{ if isset .Params "categories" }}
+      {{ $taxCount := (len .Params.categories) }}
+
+      <!--
+          Set the title before displaying the categories associated with this post.
+          The title will use the variables from the Categories menu set in the Config.
+          If the Categories menu was not set then use the default values instead.
+      -->
+      {{ if ge $taxCount 1 }}
+          <li>
+              {{ $taxMenu := (where .Site.Menus.main "Name" "Categories") }}
+              {{ if ne (len $taxMenu) 0 }}
+                  {{ $taxMenu := index $taxMenu 0 }}
+
+                  {{ $.Scratch.Set "taxUrl" $taxMenu.URL }}
+
+                  {{ with $taxMenu.Identifier }}
+                      <i class="{{ . }}">&nbsp;</i>
+                  {{ end }}
+
+                  {{ if gt $taxCount 1 }}
+                      {{ $taxMenu.Name }}
+                  {{ else }}
+                      {{ $taxMenu.Name | singularize }}
+                  {{ end }}
+              {{ else }}
+                  {{ $.Scratch.Set "taxUrl" (relURL "/categories") }}
+
+                  {{ if gt $taxCount 1 }}
+                      Categories
+                  {{ else }}
+                      Category
+                  {{ end }}
+              {{ end }}
+          </li>
+      {{ end }}
+    {{ end }}
+    <!-- Display the categories associated with this post -->
+    {{ range .Params.categories }}
+    <li><a href="{{$.Scratch.Get "taxUrl"}}/{{ . | urlize }}">{{ . }}</a></li>
+    {{ end }}
+</ul>
+<ul class="stats">
+    {{ if isset .Params "tags" }}
+        {{ $taxCount := (len .Params.tags) }}
 
         <!--
             Set the title before displaying the categories associated with this post.
             The title will use the variables from the Categories menu set in the Config.
             If the Categories menu was not set then use the default values instead.
         -->
-        {{ if ge $categoryCount 1 }}
+        {{ if ge $taxCount 1 }}
             <li>
-                {{ $categoryMenu := (where .Site.Menus.main "Name" "Categories") }}
-                {{ if ne (len $categoryMenu) 0 }}
-                    {{ $categoryMenu := index $categoryMenu 0 }}
+                {{ $taxMenu := (where .Site.Menus.main "Name" "Tags") }}
+                {{ if ne (len $taxMenu) 0 }}
+                    {{ $taxMenu := index $taxMenu 0 }}
 
-                    {{ $.Scratch.Set "categoryUrl" $categoryMenu.URL }}
+                    {{ $.Scratch.Set "taxUrl" $taxMenu.URL }}
 
-                    {{ with $categoryMenu.Identifier }}
+                    {{ with $taxMenu.Identifier }}
                         <i class="{{ . }}">&nbsp;</i>
                     {{ end }}
 
-                    {{ if gt $categoryCount 1 }}
-                        {{ $categoryMenu.Name }}
+                    {{ if gt $taxCount 1 }}
+                        {{ $taxMenu.Name }}
                     {{ else }}
-                        {{ $categoryMenu.Name | singularize }}
+                        {{ $taxMenu.Name | singularize }}
                     {{ end }}
                 {{ else }}
-                    {{ $.Scratch.Set "categoryUrl" (relURL "/categories") }}
+                    {{ $.Scratch.Set "taxUrl" (relURL "/tags") }}
 
-                    {{ if gt $categoryCount 1 }}
-                        Categories
+                    {{ if gt $taxCount 1 }}
+                        Tags
                     {{ else }}
-                        Category
+                        Tag
                     {{ end }}
                 {{ end }}
             </li>
         {{ end }}
-    {{ end }}
+      {{ end }}
 
-    <!-- Display the categories associated with this post -->
-    {{ range .Params.categories }}
-    <li><a href="{{$.Scratch.Get "categoryUrl"}}/{{ . | urlize }}">{{ . }}</a></li>
-    {{ end }}
+      <!-- Display the categories associated with this post -->
+      {{ range .Params.tags }}
+      <li><a href="{{$.Scratch.Get "taxUrl"}}/{{ . | urlize }}">{{ . }}</a></li>
+      {{ end }}
+</ul>
 </ul>
